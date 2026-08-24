@@ -30,19 +30,56 @@ Vous arrivez sur un serveur Linux dont vous ne connaissez rien. Avant toute inte
 À partir d'un terminal sur la VM :
 
 1. Relevez la version exacte du noyau, son architecture et la date de compilation.
+   
+```bash
+uname -a
+```
+
 2. Identifiez la distribution et sa version.
+
+```bash
+cat /etc/os-release
+```
+
 3. Repérez le chemin du binaire `vmlinuz` correspondant au noyau actif et la taille du fichier.
+
+```bash
+ls -lh /boot/vmlinuz-$(uname -r)
+```
+
 4. Listez le nombre total de modules chargés et donnez le nom de cinq modules de votre choix.
+
+```bash
+   lsmod | wc -l
+   lsmod | head -6
+```
+
 
 Résultat attendu : une fiche d'identité du système en 8 à 10 lignes.
 
 ### Partie 2 — Drivers et bibliothèques
 
 1. Pour le module choisi à la question précédente, affichez ses métadonnées (auteur, licence, dépendances, paramètres acceptés).
+
+```bash
+   modinfo <module_name>
+```
+
 2. Choisissez la commande `/usr/sbin/sshd` (ou `/bin/bash` si sshd n'est pas installé) et listez :
    - les bibliothèques `.so` qu'elle charge dynamiquement
    - le format du binaire (architecture, statique/dynamique, stripped ou non)
+
+```bash
+   ldd /usr/sbin/sshd
+   file /usr/sbin/sshd
+```
+
 3. Pour la bibliothèque `libc.so.6`, donnez son chemin réel sur le système et sa version.
+
+```bash
+realpath /lib/aarch64-linux-gnu/libc.so.6 
+```
+
 
 Résultat attendu : sortie commentée de chaque commande et un mini-tableau récapitulatif (binaire, format, bibliothèques principales).
 
