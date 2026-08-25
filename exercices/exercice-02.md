@@ -35,6 +35,20 @@ Relevez les éléments suivants en utilisant uniquement /proc :
 4. Ligne de commande qui a été passée au noyau au démarrage
 5. PID du processus `systemd` (PID 1) et la liste de ses descripteurs de fichiers ouverts
 
+```bash
+lscpu | grep -E "Architecture|Model name|^CPU\(s\)"
+grep -c "^processor" /proc/cpuinfo
+
+grep "^MemTotal" /proc/meminfo
+grep "^MemAvailable" /proc/meminfo
+
+cat /proc/mounts | head -10
+cat /proc/cmdline
+
+sudo ls -l /proc/1/fd | head
+```
+
+
 Résultat attendu : un compte rendu indiquant pour chaque question le chemin lu et la valeur récupérée.
 
 ### Partie 2 — Exploration de /sys
@@ -51,3 +65,18 @@ Résultat attendu : un compte rendu indiquant pour chaque question le chemin lu 
 3. Pour le module `loop` (s'il est chargé), listez ses paramètres exposés sous `/sys/module/`.
 
 Résultat attendu : un tableau avec colonnes "Question / Chemin / Valeur".
+
+```bash
+IFACE=$(basename $(ls -d /sys/class/net/*/ | grep -v '/lo/' | head -1))
+cat /sys/class/net/$IFACE/address
+cat /sys/class/net/$IFACE/operstate
+cat /sys/class/net/$IFACE/speed
+readlink -f cat /sys/class/net/$IFACE/device/
+
+DEV=$(lsblk -dn -o NAME,TYPE | awk '$2=="disk"{print $1; exit}')
+cat /sys/block/$DEV/size
+cat /sys/block/$DEV/queue/scheduler
+cat /sys/block/$DEV/queue/rotational
+
+ls /sys/module/loop/parameters/
+```
