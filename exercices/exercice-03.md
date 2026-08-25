@@ -33,6 +33,16 @@ L'équipe réseau vous demande d'activer le routage IPv4 sur un serveur Linux po
 
 Résultat attendu : commandes utilisées et trace des valeurs avant/après.
 
+```bash
+sysctl net.ipv4.ip_forward
+sysctl net.ipv4.conf.all.accept_redirects
+sysctl -w net.ipv4.ip_forward=1
+sysctl -w net.ipv4.conf.all.accept_redirects=0
+
+sysctl -a | grep ip_forward
+```
+
+
 ### Partie 2 — Persistance et vérification
 
 1. Créez un fichier dédié dans `/etc/sysctl.d/` pour rendre les deux modifications persistantes. Le fichier doit avoir un nom explicite et un commentaire d'en-tête indiquant la raison du changement et la date.
@@ -40,3 +50,19 @@ Résultat attendu : commandes utilisées et trace des valeurs avant/après.
 3. Redémarrez la VM puis vérifiez que les valeurs sont bien restées.
 4. Imaginez qu'un autre administrateur ait laissé un fichier `99-zzz.conf` qui repasse `ip_forward` à 0. Expliquez (sans coder) comment vous repèreriez le conflit et quel ordre d'application sysctl utilise.
 
+```bash
+sudo tee /etc/sysctl.d/90-routing.conf > /dev/null <<'EOF'
+# 2026-05-07 — Activation routage IPv4 et durcissement ICMP
+# Demande : équipe réseau, ticket SR-1234
+net.ipv4.ip_forward = 1
+net.ipv4.conf.all.accept_redirects = 0
+EOF
+
+sudo sysctl --system | grep -E "ip_forward|accept_redirects"
+
+sudo reboot
+
+sysctl net.ipv4.ip_forward net.ipv4.conf.all.accept_redirects
+
+grep -r ip_forward /etc/sysctl.d/ /usr/lib/sysctl.d/ /run/sysctl.d/
+```
