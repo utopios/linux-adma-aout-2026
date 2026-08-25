@@ -36,6 +36,12 @@ Vous reprenez l'administration d'un serveur dont vous n'avez pas la documentatio
 
 Résultat attendu : un schéma clair et un tableau récapitulatif.
 
+```bash
+sudo pvs -o pv_name,vg_name,pv_size,pv_free,pe_count,pe_alloc_count
+sudo vgs -o vg_name,pv_count,lv_count,vg_size,vg_free,vg_extent_size
+sudo lvs -o lv_name,vg_name,lv_size,lv_attr,seg_type,devices
+```
+
 ### Partie 2 — Anticiper les contraintes
 
 1. Pour le LV nommé `lv_app` (préparé par le formateur), peut-on l'étendre de 4 Go ? Justifiez à partir des chiffres relevés.
