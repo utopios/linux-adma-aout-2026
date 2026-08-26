@@ -37,6 +37,14 @@ Au matin, le formateur signale que sur la VM `srv-lab`, le service `myapp` ne d�
 
 Résultat attendu : commandes utilisées et extraits significatifs annotés (4-6 lignes max par extrait).
 
+```bash
+systemctl status myapp.service --no-pager
+journalctl -u myapp.service -n 50 --no-pager
+journalctl -u myapp.service -p err -b 0 --no-pager
+journalctl -u myapp.service -b -1 --no-pager | tail -20
+journalctl --list-boots
+```
+
 ### Partie 2 — Diagnostic et cause racine
 
 1. À partir des extraits, formulez une hypothèse sur la cause de l'échec (en une phrase).
