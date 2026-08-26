@@ -1,0 +1,23 @@
+$ ss -s
+Total: 1284
+TCP:   1102 (estab 842, closed 198, orphaned 4, timewait 194)
+
+Transport Total     IP        IPv6
+RAW       0         0         0
+UDP       12        8         4
+TCP       904       881       23
+INET      916       889       27
+FRAG      0         0         0
+
+$ ss -ti  (extrait, 3 sockets representatives)
+ESTAB 0  0   10.20.30.41:443   198.51.100.22:51244
+     cubic wscale:7,7 rto:204 rtt:3.812/1.144 mss:1448 cwnd:10 bytes_sent:184220
+     bytes_acked:184220 segs_out:142 segs_in:98 send 30.4Mbps lastsnd:12 lastrcv:12
+
+ESTAB 0  0   10.20.30.41:443   198.51.100.87:44120
+     cubic wscale:7,7 rto:208 rtt:4.104/1.288 mss:1448 cwnd:10 bytes_sent:92180
+     bytes_acked:92180 segs_out:88 segs_in:61 send 28.2Mbps lastsnd:8 lastrcv:8
+
+ESTAB 0  0   127.0.0.1:5432    127.0.0.1:48822
+     cubic wscale:7,7 rto:200 rtt:0.062/0.021 mss:65483 cwnd:10 bytes_sent:8842100
+     bytes_acked:8842100 segs_out:1420 segs_in:1388 send 84.5Gbps lastsnd:0 lastrcv:0

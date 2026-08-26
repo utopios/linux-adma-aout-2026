@@ -1,0 +1,25 @@
+Dossier de mesures - incident SRV-WEB-03
+========================================
+
+Serveur      : srv-web-03 (Debian 12, 8 vCPU, 16 Go RAM)
+Role         : frontal web (nginx) + base PostgreSQL locale
+Symptome     : temps de reponse HTTP degrade depuis le 04/05
+Collecte     : 07/05/2026 entre 14h10 et 14h15, PENDANT un pic de lenteur
+Collecte par : equipe oncall (aucune analyse effectuee)
+
+Baseline connue (mesures de reference du 20/04, serveur sain) :
+  - load average       : 2.5 / 2.4 / 2.3
+  - %iowait            : 1.2 %
+  - iostat %util (sdb) : 18 %
+  - iostat await (sdb) : 2.4 ms
+  - swap utilise       : 0 Mo
+  - temps reponse P95  : 180 ms
+
+Fichiers du dossier :
+  10-top.txt        sortie de `top -b -n1`
+  20-vmstat.txt     sortie de `vmstat 1 10`
+  30-iostat.txt     sortie de `iostat -xz 1 3`
+  40-free.txt       sortie de `free -h`
+  50-ss.txt         sortie de `ss -s` et `ss -ti` (extrait)
+  60-ip-link.txt    sortie de `ip -s link`
+  70-sar-disk.txt   sortie de `sar -d` (historique de la journee)
